@@ -135,7 +135,9 @@ def compute_thresholds_r(
         Thresholds_r_batches.append(Stats_r[:, :, r : ending(r)].max(dim=2)[0])
     Thresholds_concat = torch.concat(Thresholds_r_batches)
     Thresholds_r = Thresholds_concat.quantile(1 - delta_rs, dim=0)
-    Thresholds_r[-1] = Thresholds_concat[:, -1].quantile(1 - delta / 2, dim=0)
+    Thresholds_r[-1] = Thresholds_concat[:, -1].quantile(
+        1 - delta / (2 * len(Grid)), dim=0
+    )
     return Thresholds_r, Expects_r
 
 
